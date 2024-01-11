@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Portal Puzzles</title>
+<style>
+body {
+overflow: hidden;
+}
+
+canvas {
+position: absolute;
+top: 0;
+left: 0;
+}
+</style>
+</head>
+<body>
+<canvas></canvas>
+<script>
+const canvas = document.querySelector("canvas");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+const ctx = canvas.getContext("2d");
+
+function rect(x, y, width, height, color) {
+this.x = x;
+this.y = y;
+this.width = width;
+this.height = height;
+ctx.fillStyle = color;
+ctx.fillRect(x, y, width, height);
+this.draw = function(){
+ctx.fillStyle = color;
+ctx.fillRect(this.x, this.y, this.width, this.height);
+}
+}
+
+function portal(x, y, width, height, /*thickness, */color, text1, text2) {
+this.x = x;
+this.y = y;
+this.width = width;
+this.height = height;
+ctx.strokeStyle = color;
+//ctx.lineWidth = thickness;
+ctx.strokeRect(x, y, width, height);
+
+ctx.font = "16px Arial";
+ctx.fillStyle = "grey";
+ctx.fillText(text1, x - 15, y + 21);
+
+ctx.font = "16px Arial";
+ctx.fillStyle = "grey";
+ctx.fillText(text2 || "", x + 19, y + 21);
+
+this.draw = function(){
+ctx.strokeStyle = color;
+ctx.strokeRect(this.x, this.y, this.width, this.height);
+}
+}
+
+var portal1 = new portal(50, 50, 15, 30, "#444", "a", "b");
+var portal1 = new portal(50, 100, 15, 30, "#444", "b", "a");
+</script>
+
+</body>
+</html>
