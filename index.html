@@ -40,6 +40,11 @@ this.x = x;
 this.y = y;
 this.width = width;
 this.height = height;
+this.text1 = text1;
+this.text2 = text2;
+this.text1x = x - 15;
+this.text2x = x + 17;
+this.texty = y + 21;
 ctx.strokeStyle = color;
 //ctx.lineWidth = thickness;
 ctx.strokeRect(x, y, width, height);
@@ -50,16 +55,130 @@ ctx.fillText(text1, x - 15, y + 21);
 
 ctx.font = "16px Arial";
 ctx.fillStyle = "grey";
-ctx.fillText(text2 || "", x + 19, y + 21);
+ctx.fillText(text2 || "", x + 17, y + 21);
 
 this.draw = function(){
 ctx.strokeStyle = color;
 ctx.strokeRect(this.x, this.y, this.width, this.height);
+
+ctx.font = "16px Arial";
+ctx.fillStyle = "grey";
+ctx.fillText(this.text1, x - 15, y + 21);
+
+ctx.font = "16px Arial";
+ctx.fillStyle = "grey";
+ctx.fillText(this.text2 || "", x + 17, y + 21);
+
 }
 }
 
-var portal1 = new portal(50, 50, 15, 30, "#444", "a", "b");
-var portal1 = new portal(50, 100, 15, 30, "#444", "b", "a");
+var portals = [];
+portals.push(new portal(50, 50, 12, 30, "#444", "a", "b"));
+portals.push(new portal(50, 100, 12, 30, "#444", "b", "a"));
+var player = new rect(10, 60, 12, 12, "grey");
+
+var rightPressed = false;
+var leftPressed = false;
+var upPressed = false;
+var downPressed = false;
+
+document.addEventListener("keydown", keyDownHandler);
+document.addEventListener("keyup", keyUpHandler);
+
+function keyDownHandler(e) {
+if (e.key == "Right" || e.key == "ArrowRight") {
+rightPressed = true;
+}
+if (e.key == "Left" || e.key == "ArrowLeft") {
+leftPressed = true;
+}
+if (e.key == "Up" || e.key == "ArrowUp") {
+upPressed = true;
+}
+if (e.key == "Down" || e.key == "ArrowDown") {
+downPressed = true;
+}
+}
+
+function keyUpHandler(e) {
+if (e.key == "Right" || e.key == "ArrowRight") {
+rightPressed = false;
+}
+if (e.key == "Left" || e.key == "ArrowLeft") {
+leftPressed = false;
+}
+if (e.key == "Up" || e.key == "ArrowUp") {
+upPressed = false;
+}
+if (e.key == "Down" || e.key == "ArrowDown") {
+downPressed = false;
+}
+}
+
+function draw() {
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+for (let i in portals) {
+portals[i].draw();
+}
+if (rightPressed) {
+player.x += 1;
+}
+if (leftPressed) {
+player.x -= 1;
+}
+if (upPressed) {
+player.y -= 1;
+}
+if (downPressed) {
+player.y += 1;
+}
+
+/*if (player.x > portals[0].text1x && player.x < portals[0].x && player.y < portals[0].texty + 11 && player.y > portals[0].y - 11) {
+let onetwo;
+for (let i in portals) {
+if (portals[i].text1 == portals[0].text1 && i != 0) {
+let location = portals[i];
+onetwo = 1;
+break;
+}
+else if (portals[i].text2 == portals[0].text1 && i != 0) {
+let location = portals[i];
+onetwo = 2;
+break;
+}
+}
+if (onetwo == 1) {
+player.x = location.text1x;
+} else {
+player.x = location.text2x;
+}
+player.y = location.texty - 11;
+}*/
+
+if (player.x > portals[0].text1x && player.x < portals[0].x && player.y < portals[0].texty + 11 && player.y > portals[0].y - 11) {
+player.x = portals[1].text2x;
+player.y = portals[1].texty - 11;
+}
+
+if (player.x < portals[1].text2x && player.x > portals[1].x && player.y < portals[1].texty + 11 && player.y > portals[1].y - 11) {
+player.x = portals[0].text1x;
+player.y = portals[0].texty - 11;
+}
+
+if (player.x < portals[0].text2x && player.x > portals[0].x && player.y < portals[0].texty + 11 && player.y > portals[0].y - 11) {
+player.x = portals[1].text1x;
+player.y = portals[1].texty - 11;
+}
+
+if (player.x > portals[1].text1x && player.x < portals[1].x && player.y < portals[1].texty + 11 && player.y > portals[1].y - 11) {
+player.x = portals[0].text2x;
+player.y = portals[0].texty - 11;
+}
+
+player.draw();
+}
+
+setInterval(draw, 10);
 </script>
 
 </body>
