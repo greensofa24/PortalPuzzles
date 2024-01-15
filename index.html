@@ -115,6 +115,57 @@ downPressed = false;
 }
 }
 
+function teleport(a, b) {
+if (b == 1) {
+if (player.x > portals[a].text1x && player.x < portals[a].x && player.y < portals[a].texty + 11 && player.y > portals[a].y - 11) {
+let onetwo;
+let location;
+for (let i in portals) {
+if (portals[i].text1 == portals[a].text1 && i != a) {
+location = i;
+onetwo = 1;
+break;
+}
+else if (portals[i].text2 == portals[a].text1 && i != a) {
+location = i;
+onetwo = 2;
+break;
+}
+}
+if (onetwo == 1) {
+player.x = portals[location].text1x;
+} else {
+player.x = portals[location].text2x;
+}
+player.y = portals[location].texty - 11;
+}
+}
+if (b == 2) {
+if (player.x < portals[a].text2x && player.x > portals[a].x && player.y < portals[a].texty + 11 && player.y > portals[a].y - 11) {
+let onetwo;
+let location;
+for (let i in portals) {
+if (portals[i].text1 == portals[a].text2 && i != a) {
+location = i;
+onetwo = 1;
+break;
+}
+else if (portals[i].text2 == portals[a].text2 && i != a) {
+location = i;
+onetwo = 2;
+break;
+}
+}
+if (onetwo == 1) {
+player.x = portals[location].text1x;
+} else {
+player.x = portals[location].text2x;
+}
+player.y = portals[location].texty - 11;
+}
+}
+}
+
 function draw() {
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 for (let i in portals) {
@@ -133,46 +184,9 @@ if (downPressed) {
 player.y += 1;
 }
 
-/*if (player.x > portals[0].text1x && player.x < portals[0].x && player.y < portals[0].texty + 11 && player.y > portals[0].y - 11) {
-let onetwo;
 for (let i in portals) {
-if (portals[i].text1 == portals[0].text1 && i != 0) {
-let location = portals[i];
-onetwo = 1;
-break;
-}
-else if (portals[i].text2 == portals[0].text1 && i != 0) {
-let location = portals[i];
-onetwo = 2;
-break;
-}
-}
-if (onetwo == 1) {
-player.x = location.text1x;
-} else {
-player.x = location.text2x;
-}
-player.y = location.texty - 11;
-}*/
-
-if (player.x > portals[0].text1x && player.x < portals[0].x && player.y < portals[0].texty + 11 && player.y > portals[0].y - 11) {
-player.x = portals[1].text2x;
-player.y = portals[1].texty - 11;
-}
-
-if (player.x < portals[1].text2x && player.x > portals[1].x && player.y < portals[1].texty + 11 && player.y > portals[1].y - 11) {
-player.x = portals[0].text1x;
-player.y = portals[0].texty - 11;
-}
-
-if (player.x < portals[0].text2x && player.x > portals[0].x && player.y < portals[0].texty + 11 && player.y > portals[0].y - 11) {
-player.x = portals[1].text1x;
-player.y = portals[1].texty - 11;
-}
-
-if (player.x > portals[1].text1x && player.x < portals[1].x && player.y < portals[1].texty + 11 && player.y > portals[1].y - 11) {
-player.x = portals[0].text2x;
-player.y = portals[0].texty - 11;
+teleport(i, 1);
+teleport(i, 2);
 }
 
 player.draw();
