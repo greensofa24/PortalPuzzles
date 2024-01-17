@@ -9,21 +9,12 @@ overflow: hidden;
 
 canvas {
 position: absolute;
-top: 40px;
+top: 0px;
 left: 0;
 }
 </style>
 </head>
 <body>
-<button>Generate portal</button>
-<span>with the first letter/text</span>
-<input size="3">
-<span>and the second letter/text</span>
-<input size="3">
-<span>at x position</span>
-<input size="1">
-<span>and y position</span>
-<input size="1">
 <canvas></canvas>
 <script>
 const canvas = document.querySelector("canvas");
@@ -82,8 +73,7 @@ ctx.fillText(this.text2 || "", x + 17, y + 21);
 }
 
 function generate(t1, t2, posx, posy, color) {
-//portals.push(new portal(posx * 50, posy * 50 - 25, 12, 30, color || "#444", t1, t2));
-portals.push(new portal(posx * 50, posy * 50 - 45, 12, 30, color || "#444", t1, t2));
+portals.push(new portal(posx * 50, posy * 50 - 25, 12, 30, color || "#444", t1, t2));
 }
 
 var portals = [];
