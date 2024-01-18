@@ -9,7 +9,7 @@ overflow: hidden;
 
 canvas {
 position: absolute;
-top: 0px;
+top: 0;
 left: 0;
 }
 </style>
@@ -51,7 +51,7 @@ ctx.strokeRect(x, y, width, height);
 
 ctx.font = "16px Arial";
 ctx.fillStyle = "grey";
-ctx.fillText(text1, x - 15, y + 21);
+ctx.fillText(text1, x - 5 - 9 * text1.length + (text1.match(/\./g) || []).length, y + 21);
 
 ctx.font = "16px Arial";
 ctx.fillStyle = "grey";
@@ -63,7 +63,7 @@ ctx.strokeRect(this.x, this.y, this.width, this.height);
 
 ctx.font = "16px Arial";
 ctx.fillStyle = "grey";
-ctx.fillText(this.text1, x - 15, y + 21);
+ctx.fillText(this.text1, x - 5 - 9 * text1.length + (text1.match(/\./g) || []).length * 5, y + 21);
 
 ctx.font = "16px Arial";
 ctx.fillStyle = "grey";
@@ -78,7 +78,8 @@ portals.push(new portal(posx * 50, posy * 50 - 25, 12, 30, color || "#444", t1, 
 
 var portals = [];
 generate("a", "b", 1, 1);
-generate("b", "a", 1, 2);
+generate("b1", "a1", 1, 2);
+generate("a.1", "b.1", 1, 3);
 var player = new rect(10, 35, 12, 12, "grey");
 
 var rightPressed = false;
@@ -125,12 +126,12 @@ if (player.x > portals[a].text1x && player.x < portals[a].x && player.y < portal
 let onetwo;
 let location;
 for (let i in portals) {
-if (portals[i].text1 == portals[a].text1 && i != a) {
+if (!portals[a].text1.includes(".") ? portals[i].text1.replace(/([0-9]|\.)/g, "") == portals[a].text1.replace(/[0-9]/g, "") && i != a : portals[i].text1 == portals[a].text1.replace(".", "") && i != a) {
 location = i;
 onetwo = 1;
 break;
 }
-else if (portals[i].text2 == portals[a].text1 && i != a) {
+else if (!portals[a].text1.includes(".") ? portals[i].text2.replace(/([0-9]|\.)/g, "") == portals[a].text1.replace(/[0-9]/g, "") && i != a : portals[i].text2 == portals[a].text1.replace(".", "") && i != a) {
 location = i;
 onetwo = 2;
 break;
@@ -149,12 +150,12 @@ if (player.x < portals[a].text2x && player.x > portals[a].x && player.y < portal
 let onetwo;
 let location;
 for (let i in portals) {
-if (portals[i].text1 == portals[a].text2 && i != a) {
+if (!portals[a].text2.includes(".") ? portals[i].text1.replace(/([0-9]|\.)/g, "") == portals[a].text2.replace(/[0-9]/g, "") && i != a : portals[i].text1 == portals[a].text2.replace(".", "") && i != a) {
 location = i;
 onetwo = 1;
 break;
 }
-else if (portals[i].text2 == portals[a].text2 && i != a) {
+else if (!portals[a].text2.includes(".") ? portals[i].text2.replace(/([0-9]|\.)/g, "") == portals[a].text2.replace(/[0-9]/g, "") && i != a : portals[i].text2 == portals[a].text2.replace(".", "") && i != a) {
 location = i;
 onetwo = 2;
 break;
